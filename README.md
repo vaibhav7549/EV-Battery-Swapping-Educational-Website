@@ -1,37 +1,41 @@
-EV Battery Swapping Educational Website
-A simple, static educational website explaining the concept of battery swapping for electric vehicles (EVs). It covers how battery swapping works, its benefits, challenges, and real-world examples.
-Features
+# EV Battery Swapping Educational Website
 
-Informative sections on battery swapping technology
-Responsive design for desktop and mobile viewing
-Built with basic web technologies: HTML, CSS, and JavaScript
-Includes images and diagrams for better understanding
+A simple static educational website that explains the concept of battery swapping for electric vehicles (EVs). It covers the working principle, benefits, challenges, and real-world examples.
 
-Demo
-View the live site (if deployed) or run it locally:
-Open index.html in any modern web browser.
-Technologies Used
+## Features
 
-HTML5
-CSS3
-JavaScript (vanilla)
+- Clear and informative sections on battery swapping technology
+- Responsive layout (works on desktop and mobile)
+- Built using basic web technologies
+- Includes images and diagrams for better understanding
 
-How to Run Locally
+## Demo
 
-Clone the repository:textgit clone https://github.com/vaibhav7549/EV-Battery-Swapping-Educational-Website.git
-Navigate to the project directory:textcd EV-Battery-Swapping-Educational-Website
+Open `index.html` directly in any modern web browser to view the site locally.
+
+## Technologies Used
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+## How to Run Locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/vaibhav7549/EV-Battery-Swapping-Educational-Website.git
+
+Navigate to the project folder:Bashcd EV-Battery-Swapping-Educational-Website
 Open index.html in your browser.
 
-No additional setup or dependencies required.
+No additional setup or dependencies are required.
 Project Structure
-
-index.html: Main homepage
-css/: Stylesheets
-js/: JavaScript files
-images/ or assets/: Images and media
-Other pages (if any): Additional HTML files for sections
-
+text├── index.html          # Main page
+├── css/                # Stylesheets
+├── js/                 # JavaScript files
+├── images/ or assets/  # Images and other media
+└── (other HTML files)  # Additional pages if present
 Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests for improvements, bug fixes, or additional content.
+Contributions, issues, and feature requests are welcome! Feel free to open an issue or submit a pull request for improvements, bug fixes, or new content.
 License
-This project is open source. Feel free to use and modify it.
+This project is open source and available for use and modification.
