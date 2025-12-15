@@ -1,61 +1,37 @@
-# EV-Battery-Swapping-Educational-Website
 EV Battery Swapping Educational Website
-A responsive educational website to explore Electric Vehicle (EV) battery swapping technology through informational content, interactive animations, videos, and quizzes.
+A simple, static educational website explaining the concept of battery swapping for electric vehicles (EVs). It covers how battery swapping works, its benefits, challenges, and real-world examples.
 Features
 
-Informational Content: Sections on engineering, economics, environmental impact, mechanics, and safety of battery swapping.
-Interactive Animations: Visuals of the swapping process using CSS and JavaScript.
-Videos: Embedded media showcasing real-world battery swapping.
-Quiz: Interactive module to test knowledge (e.g., AI-driven alignment).
-Responsive Design: Mobile-friendly with a collapsible sidebar and adaptive layout.
+Informative sections on battery swapping technology
+Responsive design for desktop and mobile viewing
+Built with basic web technologies: HTML, CSS, and JavaScript
+Includes images and diagrams for better understanding
 
-Tech Stack
+Demo
+View the live site (if deployed) or run it locally:
+Open index.html in any modern web browser.
+Technologies Used
 
-HTML
-CSS (custom, with potential Bootstrap integration)
-JavaScript
-Tools: Visual Studio Code, Git, GitHub
+HTML5
+CSS3
+JavaScript (vanilla)
 
-Getting Started
-Prerequisites
+How to Run Locally
 
-Web browser (Chrome, Firefox, Safari)
-Internet connection (for video content)
+Clone the repository:textgit clone https://github.com/vaibhav7549/EV-Battery-Swapping-Educational-Website.git
+Navigate to the project directory:textcd EV-Battery-Swapping-Educational-Website
+Open index.html in your browser.
 
-Installation
+No additional setup or dependencies required.
+Project Structure
 
-Clone the repository:git clone https://github.com/vaibhav7549/EV-Battery-Swapping-Educational-Website.git
-
-
-Navigate to the project directory:cd EV-Battery-Swapping-Educational-Website
-
-
-Open index.html in a browser.
-
-Usage
-
-Browse sections via the sidebar (Theory, Evolution, Quiz, Future).
-Expand collapsible sections for detailed insights.
-Interact with animations and videos for visual learning.
-Take the quiz to test your understanding.
-
-File Structure
-EV-Battery-Swapping-Educational-Website/
-├── index.html    # Main HTML file with website structure
-├── style.css     # Styles and animations
-└── README.md     # Project documentation
-
-
-Functionality: Tested navigation, animations, and quiz interactions.
-Responsiveness: Verified on desktop, tablet, and mobile.
-Browsers: Compatible with Chrome, Firefox, and Safari.
+index.html: Main homepage
+css/: Stylesheets
+js/: JavaScript files
+images/ or assets/: Images and media
+Other pages (if any): Additional HTML files for sections
 
 Contributing
-
-Fork the repo.
-Create a branch: git checkout -b feature-name.
-Commit changes: git commit -m "Add feature".
-Push: git push origin feature-name.
-Submit a pull request.
-
-Resources: MDN Web Docs, W3Schools, StackOverflow.
+Contributions are welcome! Feel free to open issues or submit pull requests for improvements, bug fixes, or additional content.
+License
+This project is open source. Feel free to use and modify it.
