@@ -1,3 +1,4 @@
+```markdown
 # 🚀 EV Battery Swapping Educational Website
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -21,40 +22,28 @@ No server needed! Just:
 1. Clone the repo:
    ```bash
    git clone https://github.com/vaibhav7549/EV-Battery-Swapping-Educational-Website.git
+   ```
 
-Open index.html in your favorite browser:Bashopen index.html  # On macOS
-# Or drag & drop into Chrome/Firefox
+2. Open `index.html` in your favorite browser:
+   ```bash
+   open index.html  # On macOS
+   # Or drag & drop into Chrome/Firefox
+   ```
 
-Pro Tip: Host it for free on GitHub Pages for a live link to share!
-🛠️ Tech Stack
+> **Pro Tip**: Host it for free on [GitHub Pages](https://pages.github.com/) for a live link to share!
 
+## 🛠️ Tech Stack
 
+| Technology | Purpose | Version |
+|------------|---------|---------|
+| **HTML5** | Structure | Latest |
+| **CSS3**  | Styling  | Latest |
+| **JavaScript** | Interactivity | ES6+ |
 
+## 📁 Project Structure
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-TechnologyPurposeVersionHTML5StructureLatestCSS3StylingLatestJavaScriptInteractivityES6+
-📁 Project Structure
-textEV-Battery-Swapping-Educational-Website/
+```
+EV-Battery-Swapping-Educational-Website/
 ├── index.html              # 🚪 Main entry point
 ├── css/
 │   └── style.css           # 🎨 All the styles
@@ -64,16 +53,22 @@ textEV-Battery-Swapping-Educational-Website/
 │   ├── battery-swap.png
 │   └── ev-charging.jpg
 └── README.md               # 📖 You're reading it!
-🤝 Contributing
-Love the idea? Help make it better!
+```
 
-🐛 Report a bug
-✨ Suggest a feature
-Fork, tweak, and PR your changes!
+## 🤝 Contributing
+
+Love the idea? Help make it better!  
+- [🐛 Report a bug](https://github.com/vaibhav7549/EV-Battery-Swapping-Educational-Website/issues/new?assignees=&labels=bug&template=bug_report.md&title=)
+- [✨ Suggest a feature](https://github.com/vaibhav7549/EV-Battery-Swapping-Educational-Website/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=)
+- Fork, tweak, and PR your changes!
 
 All contributions welcome – from content updates to design polish. Let's electrify education together! 💡
-📄 License
-This project is licensed under the MIT License – free to use, modify, and distribute. See the LICENSE file for details.
 
-Built with ❤️ for a greener tomorrow.
-Questions? Hit me up @vaibhav7549 or open an issue.
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE) – free to use, modify, and distribute. See the [LICENSE](LICENSE) file for details.
+
+---
+
+**Built with ❤️ for a greener tomorrow.**  
+*Questions? Hit me up @vaibhav7549 or open an issue.*  
