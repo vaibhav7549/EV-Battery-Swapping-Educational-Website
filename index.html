@@ -1,162 +1,1085 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EV SwapTech</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link href="style.css" rel="stylesheet" >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Complete Guide to EV Battery Swapping</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-color: #0a0f1e;
+            --text-color: #e0e6ed;
+            --accent-green: #00ff88;
+            --accent-cyan: #00d4ff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(0, 255, 136, 0.2);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f4f7f6;
+            --text-color: #1a1a2e;
+            --accent-green: #00b359;
+            --accent-cyan: #0099cc;
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --card-border: rgba(0, 179, 89, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1001;
+        }
+
+        #progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 15, 30, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(244, 247, 246, 0.9);
+        }
+
+        nav .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-green);
+        }
+
+        #theme-toggle {
+            background: none;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        #theme-toggle:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-color);
+        }
+
+        /* Generics */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--accent-green);
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            color: var(--accent-cyan);
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        code.term {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Hero */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 0;
+        }
+
+        #hero h1 {
+            font-size: 4rem;
+            margin: 1rem 0;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+            to { text-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+        }
+
+        #hero p.subhead {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .read-time {
+            display: inline-block;
+            background: var(--card-bg);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+        }
+
+        .stats-strip {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .stat-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .battery-icon {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .battery-icon path {
+            fill: none;
+            stroke: var(--accent-green);
+            stroke-width: 2;
+            stroke-dasharray: 100;
+            animation: draw 3s linear infinite;
+        }
+
+        @keyframes draw {
+            0% { stroke-dashoffset: 100; }
+            50% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 100; }
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        th {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Timeline / Process */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .step {
+            position: relative;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            left: -2.35rem;
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .option-btn {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .option-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .option-btn.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-green);
+        }
+
+        .option-btn.wrong {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: red;
+        }
+
+        .explanation {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent-cyan);
+            display: none;
+        }
+
+        #quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            background: var(--accent-cyan);
+            color: #0a0f1e;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+            display: none;
+        }
+
+        .btn:hover {
+            background: #00b8e6;
+        }
+
+        /* Accordion / Glossary */
+        .accordion-item {
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 1rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: inherit;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content p {
+            padding-bottom: 1rem;
+        }
+
+        /* Back to top */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-green);
+            color: #0a0f1e;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        
+        #back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none; /* simple hidden on mobile for space */
+            }
+            .stats-strip {
+                flex-direction: column;
+            }
+            #hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+        
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <h1>Battery Swapping Unveiled</h1>
-    <p>Master EV Innovation</p>
-  </header>
-  <div class="content expanded" id="content">
-    <section id="theory" class="py-4">
-      <div class="container">
-        <h2 class="section-title text-center">Theory Deep Dive</h2>
-        <div class="battery-animation">
-          <div class="battery">Battery</div>
-          <div class="swap-arm"></div>
-        </div>
-        <p class="text-center mb-4 fs-5">See battery swapping in action!</p>
-        <div class="row g-4">
-          <div class="col-md-6">
-            <div class="card-theory" style="animation-delay: 0.1s">
-              <div class="card-body">
-                <h5 class="card-title fs-4 fw-bold">Engineering Principles</h5>
-                <p>AI-guided robotic arms with sub-millimeter precision enable fast battery swaps. The BMS optimizes charge cycles, thermal management, and cell health for efficiency.</p>
-                <button class="collapsible">More <i class="fas fa-chevron-down"></i></button>
-                <div class="collapsible-content">
-                  <p>350 kW chargers and modular designs ensure 98% uptime. Real-time diagnostics cut degradation by 20%, supporting high-demand urban networks.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card-theory" style="animation-delay: 0.2s">
-              <div class="card-body">
-                <h5 class="card-title fs-4 fw-bold">Economic Impacts</h5>
-                <p>Centralized swapping stations reduce infrastructure costs by 30%. 90-second swaps cut fleet downtime by 80%, with a 15% market growth forecast by 2030.</p>
-                <button class="collapsible">More <i class="fas fa-chevron-down"></i></button>
-                <div class="collapsible-content">
-                  <p>Scalable networks lower EV ownership costs by 25% over 5 years, eliminating home charger needs and offering predictable subscription models.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card-theory" style="animation-delay: 0.3s">
-              <div class="card-body">
-                <h5 class="card-title fs-4 fw-bold">Environmental Analysis</h5>
-                <p>Renewable-powered stations reduce CO2 emissions by 50,000 tons yearly. Professional recycling extends battery lifespan by 50%, cutting raw material use.</p>
-                <button class="collapsible">More <i class="fas fa-chevron-down"></i></button>
-                <div class="collapsible-content">
-                  <p>95% material recovery and 40% lower footprint enable net-zero potential by 2035 with advanced battery chemistries and solar integration.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card-theory" style="animation-delay: 0.4s">
-              <div class="card-body">
-                <h5 class="card-title fs-4 fw-bold">Swapping Mechanics</h5>
-                <p>Standardized modules with quick-release clamps enable 90-second swaps. Automated platforms with 3D imaging ensure compatibility across EV models.</p>
-                <button class="collapsible">More <i class="fas fa-chevron-down"></i></button>
-                <div class="collapsible-content">
-                  <p>High-precision connectors achieve 99.8% swap success. Modular bays support 50-100 kWh batteries, reducing costs by 15%.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 offset-md-3">
-            <div class="card-theory" style="animation-delay: 0.5s">
-              <div class="card-body">
-                <h5 class="card-title fs-4 fw-bold">Safety Protocols</h5>
-                <p>Real-time voltage monitoring and thermal imaging prevent faults. Automated systems ensure a 99.9% safety record with zero incidents since 2023.</p>
-                <button class="collapsible">More <i class="fas fa-chevron-down"></i></button>
-                <div class="collapsible-content">
-                  <p>IP67 connectors, fire suppression, and AI anomaly detection ensure safety in extreme conditions (-20°C to 50°C).</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="evolution" class="py-4 bg-light">
-      <div class="container">
-        <h2 class="section-title text-center">Evolution</h2>
-        <div class="timeline">
-          <div class="row">
-            <div class="col-md-6"><div class="timeline-item left" style="animation-delay: 0.1s"><h5 class="fw-bold">2010-13</h5><p>Prototypes developed.</p></div></div>
-            <div class="col-md-6"><div class="timeline-item right" style="animation-delay: 0.2s"><h5 class="fw-bold">2014-17</h5><p>Urban pilots launched.</p></div></div>
-            <div class="col-md-6"><div class="timeline-item left" style="animation-delay: 0.3s"><h5 class="fw-bold">2018-20</h5><p>Commercial rollout.</p></div></div>
-            <div class="col-md-6"><div class="timeline-item right" style="animation-delay: 0.4s"><h5 class="fw-bold">2021-Now</h5><p>AI and grid integration.</p></div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="quiz" class="py-4">
-      <div class="container">
-        <h2 class="section-title text-center">Quiz</h2>
-        <form class="quiz-form">
-          <div class="mb-3">
-            <label class="form-label fw-semibold fs-5">What ensures battery alignment?</label>
-            <select class="form-select" required>
-              <option value="">Select</option>
-              <option value="ai">AI-driven alignment</option>
-              <option value="manual">Manual alignment</option>
-              <option value="laser">Laser guidance</option>
-              <option value="gps">GPS tracking</option>
-            </select>
-          </div>
-          <div class="progress mb-3"><div class="quiz-progress" id="quizProgress"></div></div>
-          <button type="submit" class="btn btn-success w-100">Submit</button>
-        </form>
-      </div>
-    </section>
-    <section id="future" class="py-4 bg-light">
-      <div class="container">
-        <h2 class="section-title text-center">Future</h2>
-        <div class="row g-4">
-          <div class="col-md-6"><div class="card-theory"><h5 class="fs-4 fw-bold">Battery Chemistry</h5><p>Solid-state batteries for 50% higher density by 2030.</p></div></div>
-          <div class="col-md-6"><div class="card-theory"><h5 class="fs-4 fw-bold">AI Optimization</h5><p>Predictive AI for swap demand.</p></div></div>
-          <div class="col-md-6"><div class="card-theory"><h5 class="fs-4 fw-bold">Policy Support</h5><p>Incentives for adoption.</p></div></div>
-          <div class="col-md-6"><div class="card-theory"><h5 class="fs-4 fw-bold">Scalability</h5><p>Modular stations for global reach.</p></div></div>
-        </div>
-      </div>
-    </section>
-  </div>
-<section class="py-5 bg-white">
-  <div class="container">
-    <h2 class="section-title text-center">Watch How It Works</h2>
-    <div class="d-flex justify-content-center">
-      <div class="ratio ratio-16x9" style="max-width: 720px; width: 100%;">
-        <iframe src="https://www.youtube.com/embed/1kZgG58zz8U?si=up2C5m1zAJqq0EdE"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-        </iframe>
-      </div>
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
     </div>
-  </div>
-</section>
-  <footer class="text-center"><p class="mb-0">© 2025 EV SwapTech. vaibhavchaudhari7549@gmail.com </p></footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.querySelector('.quiz-form').addEventListener('submit', e => {
-      e.preventDefault();
-      const answer = e.target.querySelector('select').value, progress = document.getElementById('quizProgress');
-      progress.style.width = '100%';
-      setTimeout(() => {
-        alert(answer === 'ai' ? 'Correct! AI aligns batteries.' : 'Incorrect. AI-driven alignment is used.');
-        progress.style.width = '0';
-      }, 500);
-    });
-  </script>
+
+    <nav>
+        <div class="logo">EV SwapTech</div>
+        <ul>
+            <li><a href="#intro" class="active">Intro</a></li>
+            <li><a href="#how-it-works">Tech</a></li>
+            <li><a href="#players">Players</a></li>
+            <li><a href="#economics">Economics</a></li>
+            <li><a href="#impact">Impact</a></li>
+            <li><a href="#india">India Focus</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+        </ul>
+        <button id="theme-toggle">Light Mode</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- 1. HERO -->
+        <section id="hero" class="visible">
+            <svg class="battery-icon" viewBox="0 0 24 24">
+                <rect x="2" y="6" width="18" height="12" rx="2" stroke="currentColor" fill="none" stroke-width="2"/>
+                <line x1="22" y1="9" x2="22" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <rect x="5" y="9" width="4" height="6" fill="currentColor"/>
+                <rect x="10" y="9" width="4" height="6" fill="currentColor"/>
+                <rect x="15" y="9" width="4" height="6" fill="currentColor"/>
+            </svg>
+            <div class="read-time">Read Time: ~15 min</div>
+            <h1>The Complete Guide to EV Battery Swapping</h1>
+            <p class="subhead">How 90-second battery swaps could solve EV adoption faster than charging ever will.</p>
+
+            <div class="stats-strip">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="90">0</span>
+                    <span class="stat-label">Seconds per Swap</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="1400">0</span>
+                    <span class="stat-label">Stations in China</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">% Lower Downtime</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. WHAT IS BATTERY SWAPPING? -->
+        <section id="intro">
+            <h2>What is Battery Swapping?</h2>
+            <p>Battery swapping is an alternative to plug-in EV charging. Instead of plugging a vehicle into a charging station and waiting—often for 30 minutes to several hours—to replenish the battery, the vehicle drives into a swapping station. Here, automated robotic systems remove the depleted battery pack and replace it with a fully charged one in under a few minutes.</p>
+            
+            <div class="card">
+                <h3>Charging vs. Swapping</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Fast Charging (DCFC)</th>
+                            <th>Battery Swapping</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Time to 'Full'</strong></td>
+                            <td>30-60+ mins</td>
+                            <td>1-3 mins</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Upfront Vehicle Cost</strong></td>
+                            <td>High (Battery included)</td>
+                            <td>Lower (Battery leased)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Battery Degradation Risk</strong></td>
+                            <td>Borne by the owner</td>
+                            <td>Borne by the operator (BaaS)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Infrastructure Cost</strong></td>
+                            <td>Moderate to High</td>
+                            <td>Very High</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3>A Brief History</h3>
+            <p>In 2007, <strong>Better Place</strong> attempted a massive rollout but filed for bankruptcy by 2013 due to high costs and lack of automaker support. In 2013, <strong>Tesla</strong> demonstrated a 90-second Model S battery swap but abandoned the project to focus on its Supercharger network. Today, <strong>NIO</strong> has commercialized swapping at scale, predominantly in China, proving its viability for modern electric fleets.</p>
+        </section>
+
+        <!-- 3. HOW IT WORKS -->
+        <section id="how-it-works">
+            <h2>How It Works: Engineering Deep Dive</h2>
+            <p>Modern swap stations, like NIO's Generation 3, are architectural marvels blending heavy robotics with precise software.</p>
+            
+            <div class="card process-steps">
+                <div class="step">
+                    <strong>1. Vehicle Arrival:</strong> The EV auto-parks onto the platform. Laser sensors align the chassis precisely over the robotic mechanism.
+                </div>
+                <div class="step">
+                    <strong>2. Engagement:</strong> Robotic arms rise, locating the sub-frame bolts holding the battery.
+                </div>
+                <div class="step">
+                    <strong>3. Removal:</strong> Power lines and coolant loops are briefly sealed and disconnected. The depleted pack is lowered in under 60 seconds.
+                </div>
+                <div class="step">
+                    <strong>4. Installation:</strong> A fully charged pack is elevated, high-torque robotic wrenches lock it in place seamlessly.
+                </div>
+                <div class="step">
+                    <strong>5. Handshake:</strong> The <code class="term">BMS</code> (Battery Management System) establishes communication, runs diagnostics, and releases the car.
+                </div>
+            </div>
+
+            <p><strong>BMS Explained:</strong> The Battery Management System executes critical operations including cell balancing, State of Charge (SoC) estimation, and thermal management during operations. Connection types involve proprietary mechanical linkages and heavy-duty current carriers, a sharp contrast to standard <code class="term">CCS</code> or <code class="term">CHAdeMO</code> plugs.</p>
+            <p><strong>Standards Challenge:</strong> Swapping requires standardization of packs, physical mounting, and cooling fluid loops (<code class="term">TMS</code> reset). Without a universal standard, companies rely on proprietary architectures.</p>
+        </section>
+
+        <!-- 4. KEY PLAYERS -->
+        <section id="players">
+            <h2>Key Players & Global Case Studies</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Country</th>
+                        <th>Target Vehicle</th>
+                        <th>Swap Time</th>
+                        <th>Stations</th>
+                        <th>Business Model</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>NIO</strong></td>
+                        <td>China/EU</td>
+                        <td>Premium Cars</td>
+                        <td>3 mins</td>
+                        <td>1,000+</td>
+                        <td>BaaS Integration</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gogoro</strong></td>
+                        <td>Taiwan/India</td>
+                        <td>2-Wheelers</td>
+                        <td>6 seconds</td>
+                        <td>12,000+</td>
+                        <td>Battery Sharing Ntwk</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ample</strong></td>
+                        <td>USA</td>
+                        <td>Taxis/Fleets</td>
+                        <td>5 mins</td>
+                        <td>Expanding</td>
+                        <td>Modular Micro-batts</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sun Mobility</strong></td>
+                        <td>India</td>
+                        <td>2/3-Wheelers</td>
+                        <td>2 mins</td>
+                        <td>Growing grid</td>
+                        <td>Commercial fleets</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CATL (EVOGO)</strong></td>
+                        <td>China</td>
+                        <td>Agnostic</td>
+                        <td>1 min</td>
+                        <td>Pilot Phase</td>
+                        <td>Choco-SEB modular</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 5. ECONOMICS -->
+        <section id="economics">
+            <h2>Economics & Business Models</h2>
+            <div class="card">
+                <h3>Battery-as-a-Service (BaaS)</h3>
+                <p>By decoupling the battery from the car, an EV's sticker price drops dramatically (often by ₹3-5 lakh or $4,000 - $6,000). Users pay a monthly subscription fee which covers the battery lease, swapping costs, per-swap pricing, and guarantees against degradation.</p>
+                <p><strong>Fleet Economics:</strong> For taxi fleets and logistics, <code class="term">Downtime = Lost Revenue</code>. Waiting 40 minutes for a charge multiple times a day shrinks margins. A 3-minute swap drastically improves daily vehicle utilization, offering a rapid ROI calculation despite recurring subscription costs.</p>
+                <p><strong>Station Economics:</strong> Building a station is capital intensive, costing $200,000 to $500,000. It requires a high volume capacity (100+ swaps/day) to hit payback within 3-5 years.</p>
+                <p><strong>Grid Arbitrage:</strong> Swap stations act as massive battery buffers. They charge depleted packs during off-peak hours (cheap rates) and dispense them during peak hours, significantly aiding grid management.</p>
+            </div>
+        </section>
+
+        <!-- 6. ENVIRONMENTAL IMPACT -->
+        <section id="impact">
+            <h2>Environmental Impact</h2>
+            <ul>
+                <li><strong>Optimized Charging:</strong> Centralized charging implies stations charge batteries slowly in controlled thermal environments to 80-90% SoC rather than 100%, stretching battery lifespan by 30-40%.</li>
+                <li><strong>CO2 Comparison:</strong> Extended battery life translates directly to reduced cumulative manufacturing emissions. Optimally managed swappable EVs run far greener (lower g CO2/km) than ICE vehicles, and edge out fast-charged EVs over time.</li>
+                <li><strong>Second-Life Batteries:</strong> Packs degraded below mobile-grade capacity are re-assigned as stationary grid storage right at the swap station or connected grids.</li>
+                <li><strong>Mining Impact Reduction:</strong> A longer effective lifespan for cells drastically lowers the long-term mining demand for raw inputs like lithium and cobalt.</li>
+                <li><strong>Renewable Integration:</strong> A swap station is essentially a solar/storage microgrid waiting to happen, buffering intermittent renewable clean energy seamlessly.</li>
+            </ul>
+        </section>
+
+        <!-- 7. CHALLENGES -->
+        <section id="challenges">
+            <h2>Challenges & Criticisms</h2>
+            <div class="card">
+                <p><strong>The Format War:</strong> Analogous to VHS vs. Betamax, automakers refuse to share battery architectures. A Ford battery will not fit a GM car, making universal swap stations heavily fragmented.</p>
+                <p><strong>Capital Intensity & Vehicle Redesign:</strong> An upfront infrastructure cost blocks mass rollout in varying regions. Concurrently, native EVs must be literally redesigned to allow swappable access.</p>
+                <p><strong>Chemistry Constraints & Liabilities:</strong> <code class="term">LFP</code> (Lithium Iron Phosphate) vs <code class="term">NMC</code> (Nickel Manganese Cobalt) have entirely distinct physical, thermal, and weight parameters. Additionally, determining liability in the event of pack failure mid-drive poses a legal quagmire.</p>
+                <p><strong>Why Tesla Abandoned It:</strong> Tesla learned through its 2013 pilot that geographic limitations and heavy customer preference for convenient home-charging and robust fast-charging made swapping economically unviable for private ownership at the time.</p>
+            </div>
+        </section>
+
+        <!-- 8. INDIA FOCUS -->
+        <section id="india">
+            <h2>India-Specific Context</h2>
+            <p>From Kolhapur to Delhi, India presents a massive sandbox for swapping, primarily anchored in the 2-wheeler and 3-wheeler (e-rickshaw) ecosystems given extreme density and minimal fixed parking infrastructure.</p>
+            <ul>
+                <li><strong>Policy Push:</strong> NITI Aayog drafted a Battery Swapping Policy (2022) to formulate interoperability standards. Government incentives like FAME II and PLI schemes specifically target indigenous cell production and BaaS ecosystems.</li>
+                <li><strong>Leading Players:</strong> Sun Mobility, Battery Smart, and Charzer have actively scaled networks across metropolitan centers.</li>
+                <li><strong>Environmental Hurdles:</strong> Operating these networks involves beating high ambient heat, extreme dust, monsoons, and inconsistent local grid voltage.</li>
+                <li><strong>Maharashtra EV Policy:</strong> Aggressive state-level initiatives provide direct subsidies bridging operational gaps to ensure logistics players phase out ICE fleets aggressively over the next decade.</li>
+            </ul>
+        </section>
+
+        <!-- 9. FUTURE OUTLOOK -->
+        <section id="future">
+            <h2>Future Outlook</h2>
+            <p>Will swapping beat charging? It's heavily segmented. For private homeowners, plug-in smart charging remains the logical default. For commercial taxi networks, e-commerce delivery fleets, and densely packed urban hubs, swapping proves decisively superior.</p>
+            <p><strong>Upcoming Integrations:</strong> The synergy of <code class="term">Solid-state batteries</code> (lighter, faster to handle), <code class="term">V2G (Vehicle-to-Grid)</code> support, AI-optimized demand prediction routing, and fully autonomous swap robots points to a multi-billion dollar market inflection by 2030, strongly backed by projections from IEA and BloombergNEF.</p>
+        </section>
+
+        <!-- 10. QUIZ -->
+        <section id="quiz">
+            <h2>Interactive Quiz</h2>
+            <div class="quiz-container">
+                <div id="quiz-content">
+                    <!-- Quiz questions rendered by JS -->
+                </div>
+                <div id="quiz-controls">
+                    <span id="score-display">Question 1 of 5</span>
+                    <button id="next-btn" class="btn">Next Question</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. GLOSSARY -->
+        <section id="glossary">
+            <h2>Glossary</h2>
+            <div class="card">
+                <div class="accordion-item">
+                    <button class="accordion-header">BMS (Battery Management System) <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>The electronic system that manages a rechargeable battery, protecting it from operating outside its safe area, monitoring its state, and calculating secondary data.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">SoC (State of Charge) <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>The current capacity of a battery expressed as a percentage of its maximum capacity limit.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">BaaS (Battery-as-a-Service) <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>A business model where the EV buyer does not own the battery but leases it via subscription, radically reducing upfront vehicle purchase costs.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">TMS (Thermal Management System) <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>Subsystem designed to govern the temperature of the battery pack, ensuring optimal safety and charging efficiency.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">CCS & CHAdeMO <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>Standardized charging connectors / plug-in ecosystems utilized across North America, Europe, and Japan for DC Fast Charging.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">LFP & NMC <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>Lithium Iron Phosphate (LFP) is a cheaper, heavier, and extremely safe chemistry. Nickel Manganese Cobalt (NMC) is energy-dense, lightweight, but more volatile and expensive.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">V2G (Vehicle-to-Grid) <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>A framework where plug-in electric vehicles communicate with the power grid to return electricity to the grid or throttle their charging rate.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Smart Charging <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>A charging system where EVs, charging stations, and utility operators share data connections to optimize energy consumption.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Peak Shaving <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>The practice of reducing electricity consumption during periods of maximum demand to prevent grid outages and reduce utility costs.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Second-life Battery <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>Repurposing EV batteries that have fallen below optimal mobility thresholds (approx 80% capacity) for stationary energy infrastructure.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Standardization <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>The push for ubiquitous universal architectural protocols across OEMs to make batteries and stations cross-compatible globally.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">FAME II <span>+</span></button>
+                    <div class="accordion-content">
+                        <p>Faster Adoption and Manufacturing of (Hybrid &) Electric Vehicles in India, a subsidy scheme driving localized adoption and infrastructure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 12. FOOTER -->
+    <footer>
+        <p><strong>Further Reading:</strong></p>
+        <p>
+            <a href="https://www.iea.org/reports/global-ev-outlook-2023" target="_blank">IEA EV Outlook</a> | 
+            <a href="https://www.nio.com/nio-power" target="_blank">NIO Official Power Swap</a> | 
+            <a href="https://www.gogoro.com/" target="_blank">Gogoro Exchange</a> | 
+            <a href="https://niti.gov.in/sites/default/files/2022-04/Battery-Swapping-Policy-Draft.pdf" target="_blank">NITI Aayog Policy Draft</a> | 
+            <a href="https://about.bnef.com/electric-vehicle-outlook/" target="_blank">BloombergNEF Projections</a>
+        </p>
+        <p style="margin-top: 2rem; opacity: 0.6; font-size: 0.9rem;">
+            Author: Vaibhav Chaudhari | Engineered for Educational Purposes.
+        </p>
+    </footer>
+
+    <button id="back-to-top">↑</button>
+
+    <!-- INTERACTIVE JS -->
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+                themeToggle.textContent = 'Light Mode';
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+                themeToggle.textContent = 'Dark Mode';
+            }
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        });
+
+        // Back to top
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Sticky Nav active state
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Animate counters if Hero section
+                    if(entry.target.id === 'hero' && !entry.target.classList.contains('counted')) {
+                        animateCounters();
+                        entry.target.classList.add('counted');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        // Accordion
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('span');
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.textContent = '+';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.textContent = '-';
+                }
+            });
+        });
+
+
+        // Quiz Logic
+        const quizData = [
+            {
+                q: "What is the primary concept behind BaaS (Battery-as-a-Service)?",
+                options: ["Buying multiple batteries per vehicle", "Leasing the battery to dramatically lower EV cost", "Using disposable batteries for heavy trucks"],
+                answer: 1,
+                explanation: "BaaS separates battery cost from the vehicle cost. You lease the battery on a subscription, lowering the upfront EV purchase price by thousands of dollars while protecting against degradation." // Economics section
+            },
+            {
+                q: "What major challenge prevents universal battery swappability globally?",
+                options: ["The format war & physical scale", "Batteries are simply too light", "No company understands robotics"],
+                answer: 0,
+                explanation: "Just like VHS vs Betamax, automakers refuse to standardize physical pack geometries or cooling loops, preventing a universal station from fitting multiple OEM vehicles." // Challenges section
+            },
+            {
+                q: "How does centralized battery swapping positively impact battery lifespan and the environment?",
+                options: ["Stations rapidly dump raw unharnessed charge into packs", "Stations optimize and trickle charge packs to ~80% SoC in controlled thermals", "They eliminate the need for cobalt mining entirely"],
+                answer: 1,
+                explanation: "Charging batteries slowly in stable station environments stretches their lifecycle dramatically compared to constant consumer-grade DC fast charging." // Environmental Impact
+            },
+            {
+                q: "In the Indian framework, which entity released the 2022 draft on Battery Swapping Policy?",
+                options: ["NITI Aayog", "Ministry of Finance", "Tata Motors"],
+                answer: 0,
+                explanation: "NITI Aayog drafted the 2022 Battery Swapping Policy to promote interoperability, establishing a fundamental framework for startups building infrastructure." // India section
+            },
+            {
+                q: "From an economics standpoint, which stakeholder heavily benefits from a 3-minute swap?",
+                options: ["A private homeowner", "A 1-car family", "Commercial logistics fleets and taxis"],
+                answer: 2,
+                explanation: "For commercial operations, time literally equals money. Shaving an hour of charging out of an operational day directly translates to maximized fleet utilization and higher ROI." // Economics section
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+        const quizContent = document.getElementById('quiz-content');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score-display');
+
+        function loadQuiz() {
+            quizContent.innerHTML = '';
+            const qData = quizData[currentQ];
+            
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question active';
+            qDiv.innerHTML = `<h3>${currentQ + 1}. ${qData.q}</h3><div class="options"></div><div class="explanation" id="exp-${currentQ}">${qData.explanation}</div>`;
+            
+            const optionsDiv = qDiv.querySelector('.options');
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => selectAnswer(index, btn, optionsDiv);
+                optionsDiv.appendChild(btn);
+            });
+            
+            quizContent.appendChild(qDiv);
+            scoreDisplay.textContent = `Question ${currentQ + 1} of ${quizData.length}`;
+            nextBtn.style.display = 'none';
+        }
+
+        function selectAnswer(selectedIndex, btn, optionsDiv) {
+            const qData = quizData[currentQ];
+            const allBtns = optionsDiv.querySelectorAll('.option-btn');
+            
+            allBtns.forEach(b => b.onclick = null);
+            
+            if (selectedIndex === qData.answer) {
+                btn.classList.add('correct');
+                score++;
+            } else {
+                btn.classList.add('wrong');
+                allBtns[qData.answer].classList.add('correct');
+            }
+            
+            document.getElementById(`exp-${currentQ}`).style.display = 'block';
+            nextBtn.style.display = 'block';
+            
+            // final btn rename
+            if (currentQ === quizData.length - 1) {
+                 nextBtn.textContent = 'Finish Quiz';
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQ++;
+            if (currentQ < quizData.length) {
+                loadQuiz();
+            } else {
+                quizContent.innerHTML = `<h3>Quiz Completed!</h3>
+                <p>You scored ${score} out of ${quizData.length}.</p>
+                <button class="btn" onclick="resetQuiz()" style="display:inline-block; margin-top: 1rem;">Restart Quiz</button>`;
+                nextBtn.style.display = 'none';
+                scoreDisplay.textContent = 'Quiz Results';
+            }
+        });
+
+        function resetQuiz() {
+            currentQ = 0;
+            score = 0;
+            nextBtn.textContent = 'Next Question';
+            loadQuiz();
+        }
+
+        loadQuiz();
+
+        // Smooth Scroll for Nav Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+    </script>
 </body>
 </html>
