@@ -49,20 +49,6 @@ From **engineering principles** and **real-world case studies** to **economics**
 
 ---
 
-## 🖼️ Screenshots
-
-<div align="center">
-
-| Hero Section | Theory Cards | Quiz |
-|:---:|:---:|:---:|
-| ![Hero](https://via.placeholder.com/280x160/0a0f1e/00ff88?text=Hero+Section) | ![Theory](https://via.placeholder.com/280x160/0a0f1e/00d4ff?text=Theory+Cards) | ![Quiz](https://via.placeholder.com/280x160/0a0f1e/ffffff?text=Quiz+Section) |
-
-> 📸 _Replace the above placeholders with real screenshots from your site_
-
-</div>
-
----
-
 ## 🗂️ Project Structure
 
 ```
